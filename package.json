@@ -4,6 +4,7 @@
   "description": "Modern Playwright TypeScript E2E testing framework",
   "scripts": {
     "test": "playwright test",
+    "typecheck": "tsc --noEmit",
     "test:chrome": "playwright test --project=chromium",
     "test:firefox": "playwright test --project=firefox",
     "test:safari": "playwright test --project=webkit",
