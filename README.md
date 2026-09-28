@@ -9,7 +9,7 @@ Modern, scalable end-to-end testing framework built with Playwright and TypeScri
 - **Parallel Execution** - Fast test execution across multiple workers
 - **Cross-Browser Testing** - Chrome, Firefox, Safari support
 - **HTML Reports** - Beautiful, detailed test reports
-- **CI/CD Ready** - GitHub Actions workflow included
+- **CI/CD Ready** - `npm test` scripts drop into any CI pipeline
 - **Environment Configuration** - Easy environment management with dotenv
 
 ## Project Structure
@@ -17,13 +17,10 @@ Modern, scalable end-to-end testing framework built with Playwright and TypeScri
 ```
 playwright-typescript-e2e-framework/
 ├── tests/
-│   ├── e2e/                    # End-to-end test specs
-│   └── example.spec.ts
+│   └── login.spec.ts           # Test specs
 ├── pages/                      # Page Object Models
 │   ├── BasePage.ts
 │   └── LoginPage.ts
-├── fixtures/                   # Test fixtures
-├── utils/                      # Helper utilities
 ├── playwright.config.ts        # Playwright configuration
 ├── package.json
 └── README.md
@@ -43,6 +40,10 @@ npx playwright install
 ```
 
 ## Running Tests
+
+> **Note:** the specs target an app under test via `BASE_URL` (defaults to
+> `http://localhost:3000`). Point `BASE_URL` at your app, e.g.
+> `BASE_URL=https://myapp.example.com npm test`, before running.
 
 ```bash
 # Run all tests
@@ -90,7 +91,7 @@ import { LoginPage } from '../pages/LoginPage';
 test.describe('Login Tests', () => {
   test('should login successfully', async ({ page }) => {
     const loginPage = new LoginPage(page);
-    await loginPage.navigate();
+    await loginPage.navigateToLogin();
     await loginPage.login('user@example.com', 'password');
     await expect(page).toHaveURL('/dashboard');
   });
@@ -99,7 +100,7 @@ test.describe('Login Tests', () => {
 
 ## CI/CD Integration
 
-GitHub Actions workflow included for automated testing on every push and pull request.
+No GitHub Actions workflow is bundled with this repo; `npm test` drops into any CI pipeline (e.g. a workflow running `npm ci`, `npx playwright install --with-deps`, `npm test` with `BASE_URL` set to your app under test).
 
 ## Author
 
