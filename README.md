@@ -41,9 +41,11 @@ npx playwright install
 
 ## Running Tests
 
-> **Note:** the specs target an app under test via `BASE_URL` (defaults to
-> `http://localhost:3000`). Point `BASE_URL` at your app, e.g.
-> `BASE_URL=https://myapp.example.com npm test`, before running.
+> **Demo target:** the specs run out of the box against the public
+> [SauceDemo](https://www.saucedemo.com) demo app (base URL defaults to
+> `https://www.saucedemo.com`). To run against your own app instead, set
+> `BASE_URL` and retarget the page objects in `pages/`:
+> `BASE_URL=https://myapp.example.com npm test`.
 
 ```bash
 # Run all tests
@@ -76,7 +78,7 @@ npm run report
 ## Configuration
 
 Update `playwright.config.ts` for custom settings:
-- Base URL
+- Base URL (defaults to `https://www.saucedemo.com`; override with the `BASE_URL` env var)
 - Timeouts
 - Retry logic
 - Screenshot/video capture
@@ -88,12 +90,12 @@ Update `playwright.config.ts` for custom settings:
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 
-test.describe('Login Tests', () => {
+test.describe('SauceDemo Login Tests', () => {
   test('should login successfully', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.navigateToLogin();
-    await loginPage.login('user@example.com', 'password');
-    await expect(page).toHaveURL('/dashboard');
+    await loginPage.login('standard_user', 'secret_sauce');
+    await expect(page).toHaveURL(/.*inventory\.html/);
   });
 });
 ```
